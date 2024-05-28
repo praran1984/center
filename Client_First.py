@@ -71,9 +71,9 @@ def get_angle(p1, p2):
     if angle < 0:
         return angle + 360
     return angle
-url_data = (r'https://github.com/praran1984/center/blob/main/Map_Data.csv')
+url_data = ("https://raw.githubusercontent.com/praran1984/center/main/Map_Data.csv")
 
-df = pd.read_csv(url_data,"rb")
+df = pd.read_csv(url_data)
 #df = pd.read_csv("https://github.com/praran1984/center/blob/main/Map_Data.csv",sep=',')
 st.title('Center Distance Analysis')
 #State=list(df['State'].unique())
