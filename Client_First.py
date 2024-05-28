@@ -75,7 +75,7 @@ def get_angle(p1, p2):
 df = pd.read_csv("https://github.com/praran1984/center/blob/main/Map_Data.csv",sep="\t")
 st.title('Center Distance Analysis')
 #State=list(df['State'].unique())
-State=df['State'].unique()
+#State=df['State'].unique()
 #District = list(df['District'].unique())
 with st.sidebar:
     st.subheader("Configure the Map")
