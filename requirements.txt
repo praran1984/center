@@ -4,3 +4,5 @@ streamlit-folium
 jinja2
 branca
 geopandas
+panda
+dataframe
