@@ -72,7 +72,7 @@ def get_angle(p1, p2):
         return angle + 360
     return angle
 
-df = pd.read_csv("https://github.com/praran1984/center/blob/main/Map_Data.csv",sep="\t")
+df = pd.read_csv("https://github.com/praran1984/center/blob/main/Map_Data.csv",sep="\t",header=true)
 st.title('Center Distance Analysis')
 State=list(df['State'].unique())
 #District = list(df['District'].unique())
