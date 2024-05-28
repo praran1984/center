@@ -5,8 +5,8 @@ from collections import namedtuple
 import numpy as np
 import math
 import pandas as pd
-#from streamlit_folium import st_folium
-from streamlit_folium import folium_static
+from streamlit_folium import st_folium
+#from streamlit_folium import folium_static
 def getArrows(locations, color='blue', size=6, n_arrows=3):
     
     '''
@@ -136,6 +136,7 @@ st.dataframe(table, use_container_width=True)
 
     #folium.LayerControl().add_to(m)
     ##st_data = st_folium(m, width=725)
-folium_static(m)
+#folium_static(m)
+st_folium(m, width=725)
 
 
