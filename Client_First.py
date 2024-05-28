@@ -1,3 +1,4 @@
+pip install folium
 import streamlit as st
 import folium
 from collections import namedtuple
