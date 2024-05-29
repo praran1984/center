@@ -94,11 +94,17 @@ with st.sidebar:
     centerid = st.selectbox(label = "Choose a center", options = filtered_branchid['centerid'].unique().tolist())
     
     
-query = f"State=='{selected_state}' & District=='{District}' & branchid=='{branchid}' & centerid=={centerid} "
-location=df.query(query)
-Clientlist = df.query(query)[["Client_Lat","Client_Long"]].values.tolist()
-FirstCenter=df.query(query)[["FirstCenterMeeting_Lat","FirstCenterMeeting_Long"]].values.tolist()
-LastCenter=df.query(query)[["LastCenterMeeting_Lat","LastCenterMeeting_Long"]].values.tolist()
+    query = f"State=='{selected_state}' & District=='{District}' & branchid=='{branchid}' & centerid=={centerid} "
+    location=df.query(query)
+    Clientlist = df.query(query)[["Client_Lat","Client_Long"]].values.tolist()
+    FirstCenter=df.query(query)[["FirstCenterMeeting_Lat","FirstCenterMeeting_Long"]].values.tolist()
+    FirstCenterDistance=df.query(query)[["Client TO First Center Meeting Distance"]].values.tolist()
+                                            
+    LastCenter=df.query(query)[["LastCenterMeeting_Lat","LastCenterMeeting_Long"]].values.tolist()
+    LastCenterDistance=df.query(query)[["Client To Last Center Meeting Distance"]].values.tolist()
+    branch=df.query(query)[["Latitude_Branch","Longitude_Branch"]].values.tolist()
+    branchToFirstMeetingDistance=df.query(query)[["Branch To First Meeting Center Distance"]].values.tolist()
+    branchToLastMeetingDistance=df.query(query)[["Branch TO Last Center Meeting Distance"]].values.tolist()
      
 
     ##Clientlist = df[["Client_Lat","Client_Long"]].values.tolist()
@@ -114,10 +120,12 @@ for point in range(len(Clientlist)):
     
     folium.Marker(location=Clientlist[point],icon=folium.Icon(color='darkblue', icon_color='white', icon='male',
                   angle=1,prefix='fa'),
-                  tooltip='Distance From Old Center:'+df['Client TO First Center Meeting Distance'][point]+" KM" +"</br>" + 
-                  ' Distance From Recent Center '+df['Client To Last Center Meeting Distance'][point]+" KM").add_to(m)  
-    folium.Marker(location=FirstCenter[point],icon=folium.Icon(color='Red', icon_color='white')).add_to(m)
-    folium.Marker(location=LastCenter[point],icon=folium.Icon(color='green', icon_color='yellow')).add_to(m)
+                  tooltip=f'Distance Form First Meeting{FirstCenterDistance[point]}</br> Distance Form Last Meeting{LastCenterDistance[point]}').add_to(m)  
+    folium.Marker(location=FirstCenter[point],icon=folium.Icon(color='Red', icon_color='white'),
+                  tooltip=f'First Meeting>>Distance From Branch{branchToFirstMeetingDistance[point]}' ).add_to(m)
+    folium.Marker(location=LastCenter[point],icon=folium.Icon(color='green', icon_color='yellow'),
+                  tooltip=f'Recent Meeting>>Distance From Branch {branchToLastMeetingDistance[point]}' ).add_to(m)
+    folium.Circle(location=branch[point],radius=1000, weight=50,color='black').add_to(m)
     #folium.Circle(location=FirstCenter[point],color='red', popup=labels[point]).add_to(m)  
     ##folium.Circle(location=LastCenter[point],color='yellow', popup=labels[point]).add_to(m) 
     folium.plugins.PolyLineOffset(locations=[Clientlist[point], FirstCenter[point]],weight=1, color='red').add_to(m)
@@ -131,7 +139,7 @@ for point in range(len(Clientlist)):
     
 table= pd.pivot_table(location,values='Targetid', index='Last Center To Client Distance Bucket',
        columns='First Center To Client Distance Bucket',margins=True,margins_name="Total",fill_value=0,aggfunc='count')
-st.write = ("Selectetd Center" + str(centerid) + "Have")
+st.write = ("Selectetd Center")
 st.dataframe(table, use_container_width=True)
     #m 
         
